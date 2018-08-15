@@ -1,42 +1,17 @@
 import React, { Component } from 'react';
 import GoogleMapReact from 'google-map-react';
+import CurrentPosition from './components/CurrentLocation';
 
-class SimpleMap extends Component {
+const Marker = ({ text }) => <div><h1>{text}</h1></div>;
+
+class MainMap extends Component {
   static defaultProps = {
     center: {
-      lat: 59.95,
-      lng: 30.33
+      lat: 25.0826312,
+      lng: 121.561971899
     },
     zoom: 11
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      latitude: null,
-      longitude: null,
-      error: null,
-    };
-  }
-
-  componentDidMount() {
-    this.watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-        });
-      },
-      (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
-    );
-  }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchId);
-  }
-
 
   render() {
     return (
@@ -47,16 +22,16 @@ class SimpleMap extends Component {
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
-          <div style={{ flexGrow: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <h2>Latitude: {this.state.latitude}</h2>
-            <h2>Longitude: {this.state.longitude}</h2>
-            {this.state.error ? <p>Error: {this.state.error}</p> : null}
-          </div>
-
+          <CurrentPosition />
+          <Marker
+            lat={25.0826312}
+            lng={121.561971899}
+            text={'Taipei Taiwan'}
+          />
         </GoogleMapReact>
       </div>
     );
   }
 }
 
-export default SimpleMap;
+export default MainMap;
