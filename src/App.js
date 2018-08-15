@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import GoogleMapReact from "google-map-react";
+//import GoogleMapReact from "google-map-react";
 import CurrentPosition from "./components/CurrentLocation";
-
-const Marker = ({ text }) => (
-  <div>
-    <h1>{text}</h1>
-  </div>
-);
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 
 class MainMap extends Component {
   constructor(props) {
@@ -15,14 +10,13 @@ class MainMap extends Component {
       center: {
         lat: null,
         lng: null
-      },
-      zoom: 16,
-      error: null
+      }
     };
+    this.getLocation = this.getLocation.bind(this);
+    console.log("constructor");
   }
-
-  componentWillMount() {
-    console.log("componentWillMount");
+  getLocation() {
+    console.log("getLocation");
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
@@ -36,26 +30,31 @@ class MainMap extends Component {
       error => this.setState({ error: error.message }),
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
-    console.log("Location lat =" + this.state.center.lat);
-    console.log("Location lng =" + this.state.center.lng);
   }
 
+  componentWillMount() {
+    this.getLocation();
+    console.log("componentWillMount");
+    console.log("Location lat = " + this.state.center.lat);
+    console.log("Location lng = " + this.state.center.lng);
+  }
   render() {
     console.log("render");
+    console.log("Location lat = " + this.state.center.lat);
+    console.log("Location lng = " + this.state.center.lng);
     return (
-      // Important! Always set the container height explicitly
-      <div style={{ height: "100vh", width: "100%" }}>
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: "AIzaSyCzykG6zbf03U4ZJsakjHnM5UCWAQPboFo" }}
-          defaultCenter={this.state.center}
-          defaultZoom={this.state.zoom}
-        >
-          <CurrentPosition />
-          <Marker lat={25.0826312} lng={121.561971899} text={"Taipei Taiwan"} />
-        </GoogleMapReact>
-      </div>
+      <Map
+        google={this.props.google}
+        zoom={15}
+        center={{
+          lat: this.state.center.lat,
+          lng: this.state.center.lng
+        }}
+      />
     );
   }
 }
 
-export default MainMap;
+export default GoogleApiWrapper({
+  apiKey: "AIzaSyCzykG6zbf03U4ZJsakjHnM5UCWAQPboFo"
+})(MainMap);
