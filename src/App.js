@@ -10,7 +10,8 @@ class MainMap extends Component {
       center: {
         lat: null,
         lng: null
-      }
+      },
+      zoom: 7
     };
     this.getLocation = this.getLocation.bind(this);
     console.log("constructor");
@@ -24,6 +25,7 @@ class MainMap extends Component {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           },
+          zoom: 15,
           error: null
         });
       },
@@ -32,7 +34,7 @@ class MainMap extends Component {
     );
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getLocation();
     console.log("componentWillMount");
     console.log("Location lat = " + this.state.center.lat);
@@ -45,12 +47,23 @@ class MainMap extends Component {
     return (
       <Map
         google={this.props.google}
-        zoom={15}
+        zoom={this.state.zoom}
+        initialCenter={{
+          lat: 23.654667,
+          lng: 120.953511
+        }}
         center={{
           lat: this.state.center.lat,
           lng: this.state.center.lng
         }}
-      />
+      >
+        <Marker
+          position={{
+            lat: this.state.center.lat,
+            lng: this.state.center.lng
+          }}
+          name={'Your Location'} />
+      </Map>
     );
   }
 }
