@@ -2,6 +2,7 @@ import React, { Component } from "react";
 //import GoogleMapReact from "google-map-react";
 import CurrentPosition from "./components/CurrentLocation";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
+import axios from "axios";
 
 class MainMap extends Component {
   constructor(props) {
@@ -11,9 +12,11 @@ class MainMap extends Component {
         lat: null,
         lng: null
       },
-      zoom: 7
+      zoom: 7,
+      geo: []
     };
     this.getLocation = this.getLocation.bind(this);
+    this.getStates = this.getStates.bind(this);
     console.log("constructor");
   }
   getLocation() {
@@ -34,8 +37,21 @@ class MainMap extends Component {
     );
   }
 
+  getStates() {
+    console.log("getStates");
+    axios
+      .get("../data/parking.json")
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   componentDidMount() {
     this.getLocation();
+    this.getStates();
     console.log("componentWillMount");
     console.log("Location lat = " + this.state.center.lat);
     console.log("Location lng = " + this.state.center.lng);
@@ -62,7 +78,8 @@ class MainMap extends Component {
             lat: this.state.center.lat,
             lng: this.state.center.lng
           }}
-          name={'Your Location'} />
+          name={"Your Location"}
+        />
       </Map>
     );
   }
