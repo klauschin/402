@@ -4,6 +4,8 @@ import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
 import NavBar from "./components/navbar";
 import axios from "axios";
 
+const LoadingContainer = props => <div>Fancy loading container!</div>;
+
 class MainMap extends Component {
   constructor(props) {
     super(props);
@@ -13,12 +15,17 @@ class MainMap extends Component {
         lng: null
       },
       zoom: 7,
-      infos: []
+      infos: [],
+      selectedPlace: {},
+      showingInfoWindow: false,
+      activeMarker: {}
     };
     this.getLocation = this.getLocation.bind(this);
     this.getStates = this.getStates.bind(this);
+    this.onMarkerClick = this.onMarkerClick.bind(this);
     console.log("constructor");
   }
+
   getLocation() {
     console.log("getLocation");
     navigator.geolocation.getCurrentPosition(
@@ -60,6 +67,14 @@ class MainMap extends Component {
     console.log("Location lng = " + this.state.center.lng);
     console.log("資訊" + this.state.data);
   }
+
+  onMarkerClick = (props, marker, e) =>
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    });
+
   render() {
     console.log("render");
     console.log("Location lat = " + this.state.center.lat);
@@ -82,7 +97,6 @@ class MainMap extends Component {
             name={"Your Location"}
           />
           {this.state.infos.map(info => {
-            console.log(info.geo.coordinates[0]);
             return (
               <Marker
                 key={info._id}
@@ -96,7 +110,21 @@ class MainMap extends Component {
                   anchor: this.props.google.maps.Point(32, 32),
                   scaledSize: this.props.google.maps.Size(20, 20)
                 }}
+                onClick={this.onMarkerClick}
               />
+            );
+          })}
+          {this.state.infos.map(info => {
+            return (
+              <InfoWindow
+                key={info._id}
+                marker={this.state.activeMarker}
+                visible={this.state.showingInfoWindow}
+              >
+                <div>
+                  <h1>{this.state.selectedPlace.name}</h1>
+                </div>
+              </InfoWindow>
             );
           })}
         </Map>
@@ -106,5 +134,6 @@ class MainMap extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyCzykG6zbf03U4ZJsakjHnM5UCWAQPboFo"
+  apiKey: "AIzaSyCzykG6zbf03U4ZJsakjHnM5UCWAQPboFo",
+  LoadingContainer: LoadingContainer
 })(MainMap);
