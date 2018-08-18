@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-//import GoogleMapReact from "google-map-react";
 import CurrentPosition from "./components/CurrentLocation";
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
+import NavBar from "./components/navbar";
 import axios from "axios";
 
 class MainMap extends Component {
@@ -66,39 +66,41 @@ class MainMap extends Component {
     console.log("Location lng = " + this.state.center.lng);
     console.log("資訊" + this.state.infos);
     return (
-      <Map
-        google={this.props.google}
-        zoom={this.state.zoom}
-        initialCenter={{
-          lat: 23.654667,
-          lng: 120.953511
-        }}
-        center={{
-          lat: this.state.center.lat,
-          lng: this.state.center.lng
-        }}
-      >
-        <Marker
-          position={{
-            lat: this.state.center.lat,
-            lng: this.state.center.lng
-          }}
-          name={"Your Location"}
-        />
-        {this.state.infos.map(info => {
-          console.log(info.geo.coordinates[0]);
-          return (
-            <Marker
-              key={info._id}
-              position={{
-                lat: info.geo.coordinates[0],
-                lng: info.geo.coordinates[1]
-              }}
-              name={info.name}
-            />
-          );
-        })}
-      </Map>
+      <React.Fragment>
+        <NavBar />
+        <Map
+          google={this.props.google}
+          zoom={this.state.zoom}
+          initialCenter={{ lat: 23.654667, lng: 120.953511 }}
+          center={{ lat: this.state.center.lat, lng: this.state.center.lng }}
+        >
+          <Marker
+            position={{
+              lat: this.state.center.lat,
+              lng: this.state.center.lng
+            }}
+            name={"Your Location"}
+          />
+          {this.state.infos.map(info => {
+            console.log(info.geo.coordinates[0]);
+            return (
+              <Marker
+                key={info._id}
+                position={{
+                  lat: info.geo.coordinates[0],
+                  lng: info.geo.coordinates[1]
+                }}
+                name={info.name}
+                icon={{
+                  url: "/img/spot-icon.svg",
+                  anchor: this.props.google.maps.Point(32, 32),
+                  scaledSize: this.props.google.maps.Size(20, 20)
+                }}
+              />
+            );
+          })}
+        </Map>
+      </React.Fragment>
     );
   }
 }

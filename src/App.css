@@ -1,0 +1,15 @@
+.navbar {
+  position: fixed;
+  z-index: 1000;
+  background: #fff;
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.navbar-content h1 {
+  display: inline-block;
+  padding: 0 1.2em;
+  margin: 12px;
+  color: #171717;
+  text-shadow: 0 0 1px #808080;
+}
