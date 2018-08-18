@@ -3,7 +3,7 @@
     "_id": "5b730cc376d7f6583d6c85bd",
     "geo": {
       "type": "",
-      "coordinates": [123.0, 234.0]
+      "coordinates": [25.033303, 121.535844]
     },
     "name": "停車場",
     "carSpace": [
@@ -23,7 +23,7 @@
     "_id": "5b730d5a76d7f6583d6c85e0",
     "geo": {
       "type": "",
-      "coordinates": [123.0, 234.0]
+      "coordinates": [25.02213, 121.533873]
     },
     "name": "停車格",
     "state": 0,

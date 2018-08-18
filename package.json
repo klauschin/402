@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "google-map-react": "^1.0.6",
     "google-maps-react": "^2.0.2",
+    "npm": "^6.4.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-redux": "^5.0.7",

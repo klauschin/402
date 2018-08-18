@@ -13,7 +13,7 @@ class MainMap extends Component {
         lng: null
       },
       zoom: 7,
-      geo: []
+      infos: []
     };
     this.getLocation = this.getLocation.bind(this);
     this.getStates = this.getStates.bind(this);
@@ -43,6 +43,9 @@ class MainMap extends Component {
       .get("../data/parking.json")
       .then(res => {
         console.log(res.data);
+        this.setState({
+          infos: res.data
+        });
       })
       .catch(error => {
         console.log(error);
@@ -55,11 +58,13 @@ class MainMap extends Component {
     console.log("componentWillMount");
     console.log("Location lat = " + this.state.center.lat);
     console.log("Location lng = " + this.state.center.lng);
+    console.log("資訊" + this.state.data);
   }
   render() {
     console.log("render");
     console.log("Location lat = " + this.state.center.lat);
     console.log("Location lng = " + this.state.center.lng);
+    console.log("資訊" + this.state.infos);
     return (
       <Map
         google={this.props.google}
@@ -80,6 +85,19 @@ class MainMap extends Component {
           }}
           name={"Your Location"}
         />
+        {this.state.infos.map(info => {
+          console.log(info.geo.coordinates[0]);
+          return (
+            <Marker
+              key={info._id}
+              position={{
+                lat: info.geo.coordinates[0],
+                lng: info.geo.coordinates[1]
+              }}
+              name={info.name}
+            />
+          );
+        })}
       </Map>
     );
   }
