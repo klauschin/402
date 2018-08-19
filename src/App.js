@@ -105,6 +105,13 @@ class MainMap extends Component {
               scaledSize: this.props.google.maps.Size(20, 20)
             }}
           />
+          <Marker
+            position={{
+              lat: 25.063412,
+              lng: 121.534006
+            }}
+            name={"Your Location"}
+          />
           {this.state.infos.map(info => {
             return (
               <Marker
