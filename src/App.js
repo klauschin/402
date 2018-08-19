@@ -11,8 +11,8 @@ class MainMap extends Component {
     super(props);
     this.state = {
       center: {
-        lat: null,
-        lng: null
+        lat: 25.021799,
+        lng: 121.532626
       },
       zoom: 7,
       infos: [],
@@ -77,6 +77,7 @@ class MainMap extends Component {
 
   render() {
     console.log("render");
+    //lat: 23.654667, lng: 120.953511
     console.log("Location lat = " + this.state.center.lat);
     console.log("Location lng = " + this.state.center.lng);
     console.log("資訊" + this.state.infos);
@@ -86,7 +87,10 @@ class MainMap extends Component {
         <Map
           google={this.props.google}
           zoom={this.state.zoom}
-          initialCenter={{ lat: 23.654667, lng: 120.953511 }}
+          initialCenter={{
+            lat: this.state.center.lat,
+            lng: this.state.center.lng
+          }}
           center={{ lat: this.state.center.lat, lng: this.state.center.lng }}
         >
           <Marker
@@ -95,6 +99,11 @@ class MainMap extends Component {
               lng: this.state.center.lng
             }}
             name={"Your Location"}
+            icon={{
+              url: "/img/icons8-street-view.svg",
+              anchor: this.props.google.maps.Point(32, 32),
+              scaledSize: this.props.google.maps.Size(20, 20)
+            }}
           />
           {this.state.infos.map(info => {
             return (
