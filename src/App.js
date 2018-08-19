@@ -100,17 +100,22 @@ class MainMap extends Component {
             }}
             name={"Your Location"}
             icon={{
-              url: "/img/icons8-street-view.svg",
+              url: "/img/spot-icon.svg",
               anchor: this.props.google.maps.Point(32, 32),
               scaledSize: this.props.google.maps.Size(20, 20)
             }}
           />
           <Marker
             position={{
-              lat: 25.063412,
-              lng: 121.534006
+              lat: this.state.center.lat,
+              lng: this.state.center.lng
             }}
             name={"Your Location"}
+            icon={{
+              url: "/img/icons8-street-view.svg",
+              anchor: this.props.google.maps.Point(32, 32),
+              scaledSize: this.props.google.maps.Size(20, 20)
+            }}
           />
           {this.state.infos.map(info => {
             return (
